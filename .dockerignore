@@ -1,0 +1,15 @@
+**/bin/
+**/obj/
+**/Dist/
+**/.vs/
+**/.vscode/
+**/TestResults/
+**/CoverageReport/
+**/*.user
+**/*.suo
+**/temp_test/
+**/.git/
+**/node_modules/
+**/*.log
+**/appsettings.*.json
+!**/appsettings.json

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- ======================================================================
+       432 Hz Bit-Perfect ASIO Synthesiser
+       Visual Studio 2026  (PlatformToolset v180, MSVC 19.50+)
+       x64 only
+  ====================================================================== -->
+
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+
+  <!-- ── Global properties ─────────────────────────────────────────────── -->
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B432C001-432A-4320-ABCD-432000000001}</ProjectGuid>
+    <RootNamespace>432hz_player</RootNamespace>
+    <ProjectName>432hz_player</ProjectName>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+
+  <!-- ── Configuration properties ─────────────────────────────────────── -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props"
+            Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')"
+            Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props"
+            Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')"
+            Label="LocalAppDataPlatform" />
+  </ImportGroup>
+
+  <PropertyGroup Label="UserMacros" />
+
+  <!-- ── Output / intermediate directories ────────────────────────────── -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\</IntDir>
+    <TargetName>432hz_player</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\</IntDir>
+    <TargetName>432hz_player</TargetName>
+  </PropertyGroup>
+
+  <!-- ── Compiler settings — Debug ─────────────────────────────────────── -->
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <SdlCheck>true</SdlCheck>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>
+        $(ProjectDir)src;
+        C:\libs\rtaudio;
+        C:\libs\rtaudio\include;
+        C:\libs\imgui;
+        C:\libs\imgui\backends;
+        %(AdditionalIncludeDirectories)
+      </AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>
+        __WINDOWS_ASIO__;
+        __WINDOWS_WASAPI__;
+        NOMINMAX;
+        _CRT_SECURE_NO_WARNINGS;
+        _DEBUG;
+        %(PreprocessorDefinitions)
+      </PreprocessorDefinitions>
+      <!-- Force C++ compilation for legacy ASIO .cpp files that lack proper headers -->
+      <CompileAs>CompileAsCpp</CompileAs>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>ole32.lib;winmm.lib;ksuser.lib;mfplat.lib;mfuuid.lib;wmcodecdspuuid.lib;d3d11.lib;dxgi.lib;d3dcompiler.lib;shell32.lib;shlwapi.lib;dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <!-- ── Compiler settings — Release ──────────────────────────────────── -->
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <WarningLevel>Level3</WarningLevel>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>
+        $(ProjectDir)src;
+        C:\libs\rtaudio;
+        C:\libs\rtaudio\include;
+        C:\libs\imgui;
+        C:\libs\imgui\backends;
+        %(AdditionalIncludeDirectories)
+      </AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>
+        __WINDOWS_ASIO__;
+        __WINDOWS_WASAPI__;
+        NOMINMAX;
+        _CRT_SECURE_NO_WARNINGS;
+        NDEBUG;
+        %(PreprocessorDefinitions)
+      </PreprocessorDefinitions>
+      <CompileAs>CompileAsCpp</CompileAs>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>ole32.lib;winmm.lib;ksuser.lib;mfplat.lib;mfuuid.lib;wmcodecdspuuid.lib;d3d11.lib;dxgi.lib;d3dcompiler.lib;shell32.lib;shlwapi.lib;dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <!-- ── Source files ──────────────────────────────────────────────────── -->
+  <ItemGroup>
+    <!-- Our application sources -->
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\lut.cpp" />
+
+    <!-- RtAudio core -->
+    <ClCompile Include="C:\libs\rtaudio\RtAudio.cpp" />
+
+    <!-- Bundled ASIO SDK sources (from RtAudio\include) -->
+    <ClCompile Include="C:\libs\rtaudio\include\asio.cpp" />
+    <ClCompile Include="C:\libs\rtaudio\include\asiodrivers.cpp" />
+    <ClCompile Include="C:\libs\rtaudio\include\asiolist.cpp" />
+    <ClCompile Include="C:\libs\rtaudio\include\iasiothiscallresolver.cpp" />
+
+    <!-- Dear ImGui core + Win32/DX11 backends -->
+    <ClCompile Include="C:\libs\imgui\imgui.cpp" />
+    <ClCompile Include="C:\libs\imgui\imgui_draw.cpp" />
+    <ClCompile Include="C:\libs\imgui\imgui_tables.cpp" />
+    <ClCompile Include="C:\libs\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="C:\libs\imgui\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="C:\libs\imgui\backends\imgui_impl_dx11.cpp" />
+  </ItemGroup>
+
+  <!-- ── Header files (shown in Solution Explorer) ─────────────────────── -->
+  <ItemGroup>
+    <ClInclude Include="src\lut.h" />
+    <ClInclude Include="src\notes_432.h" />
+    <ClInclude Include="src\midi_loader.h" />
+    <ClInclude Include="src\instrument.h" />
+    <ClInclude Include="src\reverb.h" />
+    <ClInclude Include="src\sf2_engine.h" />
+    <ClInclude Include="src\tuning.h" />
+    <ClInclude Include="src\tsf.h" />
+    <ClInclude Include="src\gui_app.h" />
+    <ClInclude Include="C:\libs\rtaudio\RtAudio.h" />
+    <ClInclude Include="C:\libs\rtaudio\include\asio.h" />
+    <ClInclude Include="C:\libs\rtaudio\include\asiodrivers.h" />
+    <ClInclude Include="C:\libs\rtaudio\include\asiolist.h" />
+    <ClInclude Include="C:\libs\rtaudio\include\iasiodrv.h" />
+    <ClInclude Include="C:\libs\rtaudio\include\iasiothiscallresolver.h" />
+    <ClInclude Include="C:\libs\rtaudio\include\asiosys.h" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+
+</Project>
